@@ -2,7 +2,7 @@ package de.cirrus.dusk.level;
 
 import de.cirrus.dusk.entities.Entity;
 import de.cirrus.dusk.gfx.Screen;
-import de.cirrus.dusk.level.map.Map;
+import de.cirrus.dusk.level.map.LevelGen;
 import de.cirrus.dusk.level.tile.Tile;
 
 import java.util.ArrayList;
@@ -39,7 +39,8 @@ public class Level {
     }
 
     public void init() {
-        map = Map.getMap(w, h);
+        byte[][] levelData = LevelGen.createAndValidateTopMap(w, h);
+        map = levelData[0];
     }
 
     public void renderBackground(Screen screen, int xScroll, int yScroll) {

@@ -30,14 +30,23 @@ public class Tile {
 
     public static Tile[] tiles = new Tile[256];
     public static Tile metalPlate = new MetalPlate(0);
-    public static Tile grassTile = new GrassTile(1);
-    public static Tile sandTile = new SandTile(2);
-    public static Tile waterTile = new WaterTile(3);
-    public static Tile lavaTile = new LavaTile(4);
+    public static Tile grass = new GrassTile(1);
+    public static Tile sand = new SandTile(2);
+    public static Tile water = new WaterTile(3);
+    public static Tile lava = new LavaTile(4);
+    public static Tile tree = new TreeTile(5);
+    public static Tile rock = new RockTile(6);
+    public static Tile flower = new FlowerTile(7);
+    public static Tile cactus = new CactusTile(8);
+    public static Tile stairsDown = new StairsDown(9);
 
     public final byte id;
 
     public boolean walkable = false;
+    public boolean connectsToGrass = false;
+    public boolean connectsToSand = false;
+    public boolean connectsToLava = false;
+    public boolean connectsToWater = false;
 
     public Tile(int id) {
         this.id = (byte)id;

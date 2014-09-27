@@ -23,22 +23,17 @@ import de.cirrus.dusk.level.Level;
  * Contact: cirrus.contact@t-online.de
  */
 
-public class WaterTile extends Tile {
-    public WaterTile(int id) {
+public class FlowerTile extends Tile {
+    public FlowerTile(int id) {
         super(id);
         walkable = true;
-        connectsToSand = true;
-        connectsToWater = true;
+        connectsToGrass = true;
     }
 
     public void render(Screen screen, Level level, int x, int y) {
-        screen.render(x * 32, y * 32, Art.i.tileset[5][0], 0);
-        screen.render(x * 32 + 16, y * 32, Art.i.tileset[6][0], 0);
-        screen.render(x * 32, y * 32 + 16, Art.i.tileset[6][0], 0);
-        screen.render(x * 32 + 16, y * 32 + 16, Art.i.tileset[5][0], 0);
-    }
-
-    public void update(Level level, int xt, int yt) {
-
+        screen.render(x * 32, y * 32, Art.i.tileset[3][1], 0);
+        screen.render(x * 32 + 16, y * 32, Art.i.tileset[3][1], 0);
+        screen.render(x * 32, y * 32 + 16, Art.i.tileset[3][1], 0);
+        screen.render(x * 32 + 16, y * 32 + 16, Art.i.tileset[3][1], 0);
     }
 }

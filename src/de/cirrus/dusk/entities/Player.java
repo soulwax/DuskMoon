@@ -59,15 +59,15 @@ public class Player extends Mob {
     }
 
     public void render(Screen screen) {
-        screen.render(x-32, y-48-yr*2, Art.i.fem_player[(int)xt][(int)yt], 0);
-        screen.render(x-32, y-16-yr*2, Art.i.fem_player[(int)xt][(int)yt+1], 0);
+        screen.render(x-16, y-24-yr*2/2, Art.i.fem_player[(int)xt][(int)yt], 0);
+        screen.render(x-16, y-8-yr*2/2, Art.i.fem_player[(int)xt][(int)yt+1], 0);
     }
 
     public boolean findStartPos(Level level) {
         while(true) {
             int x = random.nextInt(level.w);
             int y = random.nextInt(level.h);
-            if(level.getTile(x, y) == Tile.grassTile) {
+            if(level.getTile(x, y) == Tile.grass) {
                 this.x = (x << 5) + 16;
                 this.y = (y << 5) + 16;
                 return true;

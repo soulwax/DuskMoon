@@ -34,14 +34,21 @@ public class Art {
         i = new Art();
     }
 
-    public Image[][] tileset = loadAndCut("tileset.png", 16, 16, DuskMoon.SCALE);
-    public Image[][] fem_player = loadAndCut("fem_blond.png", 64, 32, 1);
+    public Image[][] tileset = loadAndCut("tileset.png", 16, 16, false);
+    public Image[][] fem_player = loadAndCut("fem_blond.png", 64, 32, true);
 
-    private Image[][] loadAndCut(String path, int sw, int sh, int scale) {
+    private Image[][] loadAndCut(String path, int sw, int sh, boolean half) {
 
         Image sheet;
+
         try {
             sheet = loadImage(path);
+            if(half) {
+                sheet = sheet.getScaledCopy(0.5f);
+                sw/=2;
+                sh/=2;
+            }
+
         } catch (IOException e) {
             throw new RuntimeException("Failed to load art at " + path);
         }
@@ -53,10 +60,7 @@ public class Art {
 
         for(int x = 0; x < xSlices; x++) {
             for(int y = 0; y < ySlices; y++) {
-                Image tmp = sheet.getSubImage(x * sw, y * sh, sw, sh);
-                if(scale > 1) result[x][y] = tmp.getScaledCopy(scale);
-                else result[x][y] = tmp;
-
+                result[x][y] = sheet.getSubImage(x * sw, y * sh, sw, sh);
                 result[x][y].setFilter(Image.FILTER_NEAREST);
             }
         }

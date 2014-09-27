@@ -44,7 +44,7 @@ public class Game extends BasicGameState {
 
     public Game() {
         input = new InputHandler();
-        screen = new Screen(DuskMoon.WIDTH, DuskMoon.HEIGHT);
+        screen = new Screen(DuskMoon.WIDTH/DuskMoon.SCALE, DuskMoon.HEIGHT/DuskMoon.SCALE);
         loader = new Loader(this);
         level = new Level(128, 128);
     }
@@ -67,6 +67,7 @@ public class Game extends BasicGameState {
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+        g.scale(DuskMoon.SCALE, DuskMoon.SCALE);
         if(!loaded) {
             long lastTime = System.currentTimeMillis();
             loader.progress = 10;

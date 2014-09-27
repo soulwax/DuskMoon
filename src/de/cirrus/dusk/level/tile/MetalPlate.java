@@ -1,7 +1,6 @@
 package de.cirrus.dusk.level.tile;
 
 import de.cirrus.dusk.Art;
-import de.cirrus.dusk.DuskMoon;
 import de.cirrus.dusk.gfx.Screen;
 import de.cirrus.dusk.level.Level;
 
@@ -32,6 +31,6 @@ public class MetalPlate extends Tile {
     }
 
     public void render(Screen screen, Level level, int x, int y) {
-        screen.render(x*16* DuskMoon.SCALE, y*16*DuskMoon.SCALE, Art.i.tileset[0][0], 0);
+        screen.render(x * 32, y * 32, Art.i.tileset[0][0], 0);
     }
 }
