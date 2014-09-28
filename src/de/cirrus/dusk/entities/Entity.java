@@ -26,7 +26,7 @@ import java.util.Random;
 
 public class Entity {
     protected final Random random = new Random();
-    public int x,y;
+    public double x,y;
     public int xr = 6;
     public int yr = 6;
     public boolean removed;
@@ -40,14 +40,14 @@ public class Entity {
         removed = true;
     }
 
-    public boolean move(int xa, int ya) {
+    public boolean move(double xa, double ya) {
         if(xa != 0 || ya != 0) {
             boolean stopped = true;
             if (xa != 0 && _move(xa, 0)) stopped = false;
             if (ya != 0 && _move(0, ya)) stopped = false;
             if(!stopped) {
-                int xt = x >> 5;
-                int yt = y >> 5;
+                int xt = (int)x >> 5;
+                int yt = (int)y >> 5;
                 level.getTile(xt, yt).steppedOn(level, xt, yt, this);
             }
             return !stopped;
@@ -55,20 +55,20 @@ public class Entity {
         return true;
     }
 
-    public boolean _move(int xa, int ya) {
+    public boolean _move(double xa, double ya) {
         if(xa != 0 && ya != 0) throw new IllegalArgumentException("_move can only move along one axis at a time");
 
         //origin tile
-        int xto0 = ((x) - xr) >> 5;
-        int xto1 = ((x) + xr) >> 5;
-        int yto0 = ((y) - yr) >> 5;
-        int yto1 = ((y) + yr) >> 5;
+        int xto0 = ((int)(x) - xr) >> 5;
+        int xto1 = ((int)(x) + xr) >> 5;
+        int yto0 = ((int)(y) - yr) >> 5;
+        int yto1 = ((int)(y) + yr) >> 5;
 
         //adjacent tiles
-        int xt0 = ((x + xa) - xr) >> 5;
-        int xt1 = ((x + xa) + xr) >> 5;
-        int yt0 = ((y + ya) - yr) >> 5;
-        int yt1 = ((y + ya) + yr) >> 5;
+        int xt0 = ((int)(x + xa) - xr) >> 5;
+        int xt1 = ((int)(x + xa) + xr) >> 5;
+        int yt0 = ((int)(y + ya) - yr) >> 5;
+        int yt1 = ((int)(y + ya) + yr) >> 5;
 
         //check all adjacent tiles for collisions
         for(int yt = yt0; yt <= yt1; yt++) {

@@ -62,8 +62,8 @@ public class Game extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
         g.scale(DuskMoon.SCALE, DuskMoon.SCALE);
 
-        int xScroll = player.x - screen.w / 2;
-        int yScroll = player.y - (screen.h - 16) / 2;
+        int xScroll = (int)player.x - screen.w / 2;
+        int yScroll = (int)player.y - (screen.h - 16) / 2;
         if (xScroll < 32) xScroll = 32;
         if (yScroll < 32) yScroll = 32;
         if (xScroll > level.w * 32 - screen.w - 32) xScroll = level.w * 32 - screen.w - 32;

@@ -42,8 +42,8 @@ public class Player extends Mob {
     }
 
     public void update(int t) {
-        int xa = 0;
-        int ya = 0;
+        double xa = 0;
+        double ya = 0;
         if(input.up) ya--;
         if(input.down) ya++;
         if(input.left) xa--;
@@ -54,12 +54,12 @@ public class Player extends Mob {
 
         if (xt >= 8) xt = 0;
         xt = ((xa != 0 || ya != 0) ? xt + (t >> 1) * speed : 0);
-        move(xa * t, ya * t);
+        move(xa * t/2, ya * t/2);
     }
 
     public void render(Screen screen) {
-        screen.renderShadow(x - 16, y - 24 - yr * 2 / 2, Art.i.fem_player[(int) xt][(int) yt], 0);
-        screen.render(x-16, y-24-yr*2/2, Art.i.fem_player[(int)xt][(int)yt], 0);
+        screen.renderShadow((int)x - 16, (int)y - 24 - yr * 2 / 2, Art.i.fem_player[(int) xt][(int) yt], 0);
+        screen.render((int)x-16, (int)y-24-yr*2/2, Art.i.fem_player[(int)xt][(int)yt], 0);
     }
 
     public boolean findStartPos(Level level) {
