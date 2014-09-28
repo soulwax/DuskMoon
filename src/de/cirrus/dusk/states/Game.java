@@ -4,10 +4,8 @@ import de.cirrus.dusk.Art;
 import de.cirrus.dusk.DuskMoon;
 import de.cirrus.dusk.InputHandler;
 import de.cirrus.dusk.entities.Player;
-import de.cirrus.dusk.gfx.Loader;
 import de.cirrus.dusk.gfx.Screen;
 import de.cirrus.dusk.level.Level;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -36,29 +34,24 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Game extends BasicGameState {
     public Level level;
     public Screen screen;
-    public Loader loader;
     public InputHandler input;
     public Player player;
-
-    public boolean loaded;
 
     public Game() {
         input = new InputHandler();
         screen = new Screen(DuskMoon.WIDTH/DuskMoon.SCALE, DuskMoon.HEIGHT/DuskMoon.SCALE);
-        loader = new Loader(this);
         level = new Level(128, 128);
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         gc.getInput().addMouseListener(input);
         gc.getInput().addKeyListener(input);
-        loaded = false;
+
+        Art.init();
+        level.init();
+        resetGame();
     }
 
-    public void loadState() {
-
-
-    }
 
     public void resetGame() {
         player = new Player(this,input);
@@ -68,24 +61,6 @@ public class Game extends BasicGameState {
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
         g.scale(DuskMoon.SCALE, DuskMoon.SCALE);
-        if(!loaded) {
-            long lastTime = System.currentTimeMillis();
-            loader.progress = 10;
-            renderLoadingScreen(g);
-            Art.init();
-            loader.progress = 40;
-            renderLoadingScreen(g);
-            level.init();
-            loader.progress = 75;
-            renderLoadingScreen(g);
-            resetGame();
-            loader.progress = 100;
-            renderLoadingScreen(g);
-            long passedTime = System.currentTimeMillis() - lastTime;
-            System.out.println("loading took " + ((double)passedTime)/1000D + " seconds.");
-            loaded = true;
-        }
-
 
         int xScroll = player.x - screen.w / 2;
         int yScroll = player.y - (screen.h - 16) / 2;
@@ -104,13 +79,5 @@ public class Game extends BasicGameState {
 
     public int getID() {
         return 1;
-    }
-
-    public void renderLoadingScreen(Graphics g) {
-        int w = screen.w;
-        int h = screen.h;
-        System.out.println("render loading screen");
-        g.setColor(Color.white);
-        g.fillRect(30, h / 2 - 15, (w - 2 * 30) * loader.progress / 100, 30);
     }
 }

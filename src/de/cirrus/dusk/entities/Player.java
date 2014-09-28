@@ -49,18 +49,17 @@ public class Player extends Mob {
         if(input.left) xa--;
         if(input.right) xa++;
 
-        yt = (xa > 0 ? 11f*2 : (xa < 0 ? 9f*2 : yt));
-        yt = (ya > 0 ? 10f*2 : (ya < 0 ? 8f*2 : yt));
+        yt = (xa > 0 ? 11f : (xa < 0 ? 9f : yt));
+        yt = (ya > 0 ? 10f : (ya < 0 ? 8f : yt));
 
         if (xt >= 8) xt = 0;
         xt = ((xa != 0 || ya != 0) ? xt + (t >> 1) * speed : 0);
-
         move(xa * t, ya * t);
     }
 
     public void render(Screen screen) {
+        screen.renderShadow(x - 16, y - 24 - yr * 2 / 2, Art.i.fem_player[(int) xt][(int) yt], 0);
         screen.render(x-16, y-24-yr*2/2, Art.i.fem_player[(int)xt][(int)yt], 0);
-        screen.render(x-16, y-8-yr*2/2, Art.i.fem_player[(int)xt][(int)yt+1], 0);
     }
 
     public boolean findStartPos(Level level) {

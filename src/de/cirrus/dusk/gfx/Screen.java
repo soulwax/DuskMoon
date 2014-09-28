@@ -1,5 +1,6 @@
 package de.cirrus.dusk.gfx;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 /**
@@ -29,6 +30,8 @@ public class Screen {
     public static final int BIT_MIRROR_X = 0x01;
     public static final int BIT_MIRROR_Y = 0x02;
 
+    public Color shadow = new Color(0,0,0,0.5f);
+
     public Screen(int w, int h) {
         this.w = w;
         this.h = h;
@@ -49,6 +52,23 @@ public class Screen {
         image.draw(xp, yp);
     }
 
+    public void renderShadow(int xp, int yp, Image image, int bits) {
+        xp -= xOffset;
+        yp -= yOffset;
+        boolean mirrorX = (bits & BIT_MIRROR_X) > 0;
+        boolean mirrorY = (bits & BIT_MIRROR_Y) > 0;
+
+        if(mirrorX || mirrorY) {
+            image.getFlippedCopy(mirrorX, mirrorY).draw(xp, yp);
+            return;
+        }
+        xp+=image.getWidth()-image.getWidth()/1.25F;
+        yp+=image.getHeight()-image.getHeight()/1.5F;
+        image.setCenterOfRotation((image.getWidth()/1.5F)/2, image.getHeight()/1.5F);
+        image.rotate(25);
+        image.drawFlash(xp, yp, image.getWidth()/1.5F, image.getHeight()/1.5F, shadow);
+        image.rotate(-25);
+    }
 
     public void setOffset(int xOffset, int yOffset) {
         this.xOffset = xOffset;

@@ -31,7 +31,7 @@ public class DuskMoon extends StateBasedGame {
     public static final String TITLE = "Dusk Moon - by Cirrus";
     public static final int HEIGHT = 720;
     public static final int WIDTH = HEIGHT * 16 / 9;
-    public static final int SCALE = 2;
+    public static final int SCALE = 3;
     public static final int UPS = 60;
     public static final int FPS = 60;
     public static boolean fullScreen = false;

@@ -34,33 +34,43 @@ public class Art {
         i = new Art();
     }
 
-    public Image[][] tileset = loadAndCut("tileset.png", 16, 16, false);
-    public Image[][] fem_player = loadAndCut("fem_blond.png", 64, 32, true);
+    public Image[][] tileset = load("tileset.png", 16, 16);
+    public Image[][] fem_player = loadScaled("fem_blond.png", 64, 64, 0.5F);
 
-    private Image[][] loadAndCut(String path, int sw, int sh, boolean half) {
-
+    private Image[][] load(String path, int sw, int sh) {
         Image sheet;
-
         try {
-            sheet = loadImage(path);
-            if(half) {
-                sheet = sheet.getScaledCopy(0.5f);
-                sw/=2;
-                sh/=2;
-            }
-
+            sheet = convertImage(path);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load art at " + path);
         }
+        return cutImage(sheet, sw, sh);
+    }
 
-        int xSlices = sheet.getWidth() / sw;
-        int ySlices = sheet.getHeight() / sh;
+    private Image[][] loadScaled(String path, int sw, int sh, float scale) {
+        Image sheet;
+        try {
+            sheet = convertImage(path);
+            sheet = sheet.getScaledCopy(scale);
+            sw*=scale;
+            sh*=scale;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load art at " + path);
+        }
+        return cutImage(sheet, sw, sh);
+
+    }
+
+    private Image[][] cutImage(Image image, int sw, int sh) {
+
+        int xSlices = image.getWidth() / sw;
+        int ySlices = image.getHeight() / sh;
 
         Image[][] result = new Image[xSlices][ySlices];
 
         for(int x = 0; x < xSlices; x++) {
             for(int y = 0; y < ySlices; y++) {
-                result[x][y] = sheet.getSubImage(x * sw, y * sh, sw, sh);
+                result[x][y] = image.getSubImage(x * sw, y * sh, sw, sh);
                 result[x][y].setFilter(Image.FILTER_NEAREST);
             }
         }
@@ -69,7 +79,7 @@ public class Art {
     }
 
 
-    private Image loadImage(String path) throws IOException {
+    private Image convertImage(String path) throws IOException {
         BufferedImage bufferedImage = ImageIO.read(DuskMoon.class.getResourceAsStream("/"+path));
         Texture texture = BufferedImageUtil.getTexture("", bufferedImage);
         Image image = null;
