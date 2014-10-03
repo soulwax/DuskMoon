@@ -51,3 +51,15 @@ hs_err_pid*
 
 #lib
 *.dll
+
+#MANIFEST
+*.MF
+
+#Link
+*.lnk
+
+#XML
+*.xml
+
+#intelli-j
+*.iml

@@ -74,7 +74,7 @@ public class LevelGen {
             }
             stepSize /= 2;
             scale *= (scaleMod + 0.8);
-            scaleMod *= 0.1;
+            scaleMod *= 0.3;
         } while (stepSize > 1);
     }
 
