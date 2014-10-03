@@ -36,6 +36,7 @@ public class Game extends BasicGameState {
     public Screen screen;
     public InputHandler input;
     public Player player;
+    public static int gameTempo = 3;
 
     public Game() {
         input = new InputHandler();
@@ -68,13 +69,16 @@ public class Game extends BasicGameState {
         if (yScroll < 32) yScroll = 32;
         if (xScroll > level.w * 32 - screen.w - 32) xScroll = level.w * 32 - screen.w - 32;
         if (yScroll > level.h * 32 - screen.h - 32) yScroll = level.h * 32 - screen.h - 32;
-
         level.renderBackground(screen, xScroll, yScroll);
         level.renderEntities(screen, xScroll, yScroll);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int t) throws SlickException {
-        level.update(t >> 3);
+        if(input.plus) gameTempo++;
+        if(input.minus) gameTempo--;
+        if(gameTempo < 1) gameTempo = 1;
+        if(gameTempo > 10) gameTempo = 10;
+        level.update(t >> (6/gameTempo));
     }
 
     public int getID() {

@@ -26,7 +26,7 @@ import java.util.Random;
 
 public class Entity {
     protected final Random random = new Random();
-    public double x,y;
+    public double x,y, xa, ya;
     public int xr = 6;
     public int yr = 6;
     public boolean removed;

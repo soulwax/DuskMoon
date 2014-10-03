@@ -30,6 +30,7 @@ import java.util.List;
 public class Level {
     public int w, h;
     public byte[] map;
+    public byte[] data;
 
     public List<Entity> entities = new ArrayList<>();
 
@@ -41,6 +42,7 @@ public class Level {
     public void init() {
         byte[][] levelData = LevelGen.createAndValidateTopMap(w, h);
         map = levelData[0];
+        data = levelData[1];
     }
 
     public void renderBackground(Screen screen, int xScroll, int yScroll) {
@@ -48,6 +50,7 @@ public class Level {
         int yo = yScroll >> 5;
         int w = (screen.w + 30) >> 5;
         int h = (screen.h + 30) >> 5;
+
         screen.setOffset(xScroll, yScroll);
         for(int y = yo; y <= h + yo; y++) {
             for(int x = xo; x <= w + xo; x++) {

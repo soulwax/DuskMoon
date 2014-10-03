@@ -42,6 +42,8 @@ public class InputHandler implements MouseListener, KeyListener {
     public boolean down = false;
     public boolean space = false;
     public boolean lshift = false;
+    public boolean plus = false;
+    public boolean minus = false;
 
     public boolean dragged = false;
     public boolean justPressed = false;
@@ -75,6 +77,14 @@ public class InputHandler implements MouseListener, KeyListener {
 
         if (keyCode == Input.KEY_LSHIFT) {
             lshift = isPressed;
+        }
+
+        if(keyCode == Input.KEY_ADD) {
+            plus = isPressed;
+        }
+
+        if(keyCode == Input.KEY_SUBTRACT) {
+            minus = isPressed;
         }
     }
 

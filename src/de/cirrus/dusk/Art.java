@@ -35,7 +35,8 @@ public class Art {
     }
 
     public Image[][] tileset = load("tileset.png", 16, 16);
-    public Image[][] fem_player = loadScaled("fem_blond.png", 64, 64, 0.5F);
+    public Image[][] fem_player = loadScaled("fem_blond_general.png", 64, 64, 0.5F);
+    public Image[][] fem_player_attack = loadScaled("fem_blond_attack.png", 192, 192, 0.5F);
 
     private Image[][] load(String path, int sw, int sh) {
         Image sheet;

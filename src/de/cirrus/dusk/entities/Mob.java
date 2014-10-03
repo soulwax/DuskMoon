@@ -1,5 +1,7 @@
 package de.cirrus.dusk.entities;
 
+import de.cirrus.dusk.level.tile.Tile;
+
 /**
  * DuskMoon
  * Copyright (C) 2014 by Cirrus
@@ -21,6 +23,14 @@ package de.cirrus.dusk.entities;
 
 public class Mob extends Entity {
 
+    protected int dir = 0;
+    protected int walkDist = 0;
+
+    public int hurtTime = 0;
+    public int maxHealth = 100;
+    public int health = maxHealth;
+    public boolean swimming = false;
+
     public Mob() {
         x = y = 8;
         xr = 14;
@@ -28,6 +38,30 @@ public class Mob extends Entity {
     }
 
     public void update(int t) {
+        if(health <= 0) die();
 
+        if(hurtTime > 0) hurtTime--;
+
+        if(level.getTile((int)x >> 5, (int)y >> 5) == Tile.water) swimming = true;
+        else swimming = false;
     }
+
+    public void die() {
+        remove();
+    }
+
+    public boolean move(double xa, double ya) {
+
+        if(xa != 0 || ya != 0) {
+            walkDist++;
+            if(ya < 0) dir = 1;
+            if(ya > 0) dir = 0;
+            if(xa < 0) dir = 2;
+            if(xa > 0) dir = 3;
+        }
+
+        return super.move(xa, ya);
+    }
+
+
 }

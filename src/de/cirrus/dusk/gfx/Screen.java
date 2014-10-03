@@ -37,37 +37,55 @@ public class Screen {
         this.h = h;
     }
 
-
     public void render(int xp, int yp, Image image, int bits) {
         xp -= xOffset;
         yp -= yOffset;
-        boolean mirrorX = (bits & BIT_MIRROR_X) > 0;
-        boolean mirrorY = (bits & BIT_MIRROR_Y) > 0;
 
-        if(mirrorX || mirrorY) {
-            image.getFlippedCopy(mirrorX, mirrorY).draw(xp, yp);
-            return;
-        }
+        Image target = image;
+        if(bits > 0) target = getFlippedCopy(image, bits);
 
-        image.draw(xp, yp);
+        target.draw(xp, yp, image.getWidth(), image.getHeight());
+    }
+
+    public void renderScaled(int xp, int yp, Image image, float scale, int bits) {
+        xp -= xOffset;
+        yp -= yOffset;
+
+        Image target = image;
+        if(bits > 0) target = getFlippedCopy(image, bits);
+
+        target.draw(xp, yp, scale);
+    }
+
+    public void renderSubImage(int xp, int yp, Image image, int vwidth, int vheight, int bits) {
+        xp -= xOffset;
+        yp -= yOffset;
+
+        Image target = image.getSubImage(0, 0, image.getWidth()-vwidth, image.getHeight()-vheight);
+        if(bits > 0) target = getFlippedCopy(target, bits);
+
+        target.draw(xp, yp);
     }
 
     public void renderShadow(int xp, int yp, Image image, int bits) {
         xp -= xOffset;
         yp -= yOffset;
+        Image target = image;
+        if(bits > 0) target = getFlippedCopy(image, bits);
+
+        xp+=target.getWidth()-target.getWidth()/1.25F;
+        yp+=target.getHeight()-target.getHeight()/1.5F;
+        target.setCenterOfRotation((target.getWidth()/1.5F)/2, target.getHeight()/1.5F);
+        target.rotate(25);
+        target.drawFlash(xp, yp, target.getWidth()/1.5F, target.getHeight()/1.5F, shadow);
+        target.rotate(-25);
+    }
+
+    private Image getFlippedCopy(Image image, int bits) {
         boolean mirrorX = (bits & BIT_MIRROR_X) > 0;
         boolean mirrorY = (bits & BIT_MIRROR_Y) > 0;
 
-        if(mirrorX || mirrorY) {
-            image.getFlippedCopy(mirrorX, mirrorY).draw(xp, yp);
-            return;
-        }
-        xp+=image.getWidth()-image.getWidth()/1.25F;
-        yp+=image.getHeight()-image.getHeight()/1.5F;
-        image.setCenterOfRotation((image.getWidth()/1.5F)/2, image.getHeight()/1.5F);
-        image.rotate(25);
-        image.drawFlash(xp, yp, image.getWidth()/1.5F, image.getHeight()/1.5F, shadow);
-        image.rotate(-25);
+        return image.getFlippedCopy(mirrorX, mirrorY);
     }
 
     public void setOffset(int xOffset, int yOffset) {
