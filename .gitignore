@@ -58,8 +58,12 @@ hs_err_pid*
 #Link
 *.lnk
 
-#XML
-*.xml
-
 #intelli-j
 *.iml
+.idea
+# output directory
+target
+# eclipse project files
+.settings
+.classpath
+.project
