@@ -1,13 +1,14 @@
 package de.cirrus.dusk;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * DuskMoon
@@ -35,8 +36,8 @@ public class Art {
     }
 
     public Image[][] tileset = load("tileset.png", 16, 16);
-    public Image[][] fem_player = loadScaled("fem_blond_general.png", 64, 64, 0.5F);
-    public Image[][] fem_player_attack = loadScaled("fem_blond_attack.png", 192, 192, 0.5F);
+    public Image[][] fem_player = load("fem_blond_general.png", 64, 64);
+    public Image[][] fem_player_attack = load("fem_blond_attack.png", 192, 192);
 
     private Image[][] load(String path, int sw, int sh) {
         Image sheet;
@@ -48,10 +49,14 @@ public class Art {
         return cutImage(sheet, sw, sh);
     }
 
+    @SuppressWarnings("unused")
     private Image[][] loadScaled(String path, int sw, int sh, float scale) {
         Image sheet;
         try {
             sheet = convertImage(path);
+            // FIXME: according to documentation, this function do no scale the
+            // image, but convas instead. As the result image itself will be
+            // clipped. That's most likely not what we want.
             sheet = sheet.getScaledCopy(scale);
             sw*=scale;
             sh*=scale;
