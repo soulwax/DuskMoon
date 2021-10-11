@@ -94,10 +94,10 @@ public class Player extends Mob {
         if(attackTime > 0) {
             if(attackTime == ATTACK_CD) xt = 0;
             if (attackDir == Direction.UP) {
-                yt = 2;
+                yt = 0;
             }
             if (attackDir == Direction.DOWN) {
-                yt = 0;
+                yt = 2;
             }
             if (attackDir == Direction.LEFT) {
                 yt = 1;
