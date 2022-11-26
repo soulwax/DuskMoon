@@ -54,7 +54,24 @@ public class DuskMoon extends StateBasedGame {
     }
 
     public static void main(String[] args) {
-        //System.setProperty("org.lwjgl.librarypath", new File("pathToNatives").getAbsolutePath());
+        // Test for OS
+        String os = System.getProperty("os.name").toLowerCase();
+        System.out.println("OS: " + os);
+        switch (os) {
+            case "linux":
+                System.setProperty("org.lwjgl.librarypath", new File("lib/natives/linux").getAbsolutePath());
+                System.setProperty("net.java.games.input.librarypath", new File("lib/natives/linux").getAbsolutePath());
+                break;
+            case "windows":
+                System.setProperty("org.lwjgl.librarypath", new File("lib/natives/windows").getAbsolutePath());
+                break;
+            case "mac":
+                System.setProperty("org.lwjgl.librarypath", new File("lib/natives/macosx").getAbsolutePath());
+                break;
+            default:
+                System.out.println("OS not supported!");
+                System.exit(1);
+        }
         AppGameContainer container;
         try {
             container = new AppGameContainer(new DuskMoon(TITLE));
