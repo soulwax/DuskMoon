@@ -1,8 +1,8 @@
 package de.cirrus.dusk.level.map;
 
-import de.cirrus.dusk.level.tile.Tile;
-
 import java.util.Random;
+
+import de.cirrus.dusk.level.tile.Tile;
 
 /**
  * DuskMoon
@@ -14,11 +14,11 @@ import java.util.Random;
  * -
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  * -
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * -
  * Contact: cirrus.contact@t-online.de
  */
@@ -106,8 +106,10 @@ public class LevelGen {
 
                 double xd = x / (w - 1.0) * 2 - 1;
                 double yd = y / (h - 1.0) * 2 - 1;
-                if (xd < 0) xd = -xd;
-                if (yd < 0) yd = -yd;
+                if (xd < 0)
+                    xd = -xd;
+                if (yd < 0)
+                    yd = -yd;
                 double dist = xd >= yd ? xd : yd;
                 dist = dist * dist * dist * dist;
                 dist = dist * dist * dist * dist;
@@ -143,9 +145,16 @@ public class LevelGen {
             }
         }
 
-		/*
-		 * for (int i = 0; i < w * h / 2800; i++) { int xs = random.nextInt(w); int ys = random.nextInt(h); for (int k = 0; k < 10; k++) { int x = xs + random.nextInt(21) - 10; int y = ys + random.nextInt(21) - 10; for (int j = 0; j < 100; j++) { int xo = x + random.nextInt(5) - random.nextInt(5); int yo = y + random.nextInt(5) - random.nextInt(5); for (int yy = yo - 1; yy <= yo + 1; yy++) for (int xx = xo - 1; xx <= xo + 1; xx++) if (xx >= 0 && yy >= 0 && xx < w && yy < h) { if (map[xx + yy * w] == Tile.grass.id) { map[xx + yy * w] = Tile.dirt.id; } } } } }
-		 */
+        /*
+         * for (int i = 0; i < w * h / 2800; i++) { int xs = random.nextInt(w); int ys =
+         * random.nextInt(h); for (int k = 0; k < 10; k++) { int x = xs +
+         * random.nextInt(21) - 10; int y = ys + random.nextInt(21) - 10; for (int j =
+         * 0; j < 100; j++) { int xo = x + random.nextInt(5) - random.nextInt(5); int yo
+         * = y + random.nextInt(5) - random.nextInt(5); for (int yy = yo - 1; yy <= yo +
+         * 1; yy++) for (int xx = xo - 1; xx <= xo + 1; xx++) if (xx >= 0 && yy >= 0 &&
+         * xx < w && yy < h) { if (map[xx + yy * w] == Tile.grass.id) { map[xx + yy * w]
+         * = Tile.dirt.id; } } } } }
+         */
 
         for (int i = 0; i < w * h / 400; i++) {
             int x = random.nextInt(w);
@@ -194,33 +203,45 @@ public class LevelGen {
 
             for (int yy = y - 1; yy <= y + 1; yy++)
                 for (int xx = x - 1; xx <= x + 1; xx++) {
-                    if (map[xx + yy * w] != Tile.rock.id) continue stairsLoop;
+                    if (map[xx + yy * w] != Tile.rock.id)
+                        continue stairsLoop;
                 }
 
             map[x + y * w] = Tile.stairsDown.id;
             count++;
-            if (count == 4) break;
+            if (count == 4)
+                break;
         }
 
         return new byte[][] { map, data };
     }
 
-
     public static byte[][] createAndValidateTopMap(int w, int h) {
         int attempt = 0;
         do {
+            attempt++;
             byte[][] result = createTopMap(w, h);
-
             int[] count = new int[256];
 
             for (int i = 0; i < w * h; i++) {
                 count[result[0][i] & 0xff]++;
             }
-            if (count[Tile.rock.id & 0xff] < 100) continue;
-            if (count[Tile.sand.id & 0xff] < 100) continue;
-            if (count[Tile.grass.id & 0xff] < 100) continue;
-            if (count[Tile.tree.id & 0xff] < 100) continue;
-            if (count[Tile.stairsDown.id & 0xff] < 2) continue;
+            if (count[Tile.rock.id & 0xff] < 100)
+                continue;
+            if (count[Tile.sand.id & 0xff] < 100)
+                continue;
+            if (count[Tile.grass.id & 0xff] < 100)
+                continue;
+            if (count[Tile.tree.id & 0xff] < 100)
+                continue;
+            if (count[Tile.stairsDown.id & 0xff] < 2)
+                continue;
+            if (count[Tile.flower.id & 0xff] < 10)
+                continue;
+            if (count[Tile.cactus.id & 0xff] < 10)
+                continue;
+            if (count[Tile.stairsDown.id & 0xff] >= 200)
+                continue;
 
             return result;
 

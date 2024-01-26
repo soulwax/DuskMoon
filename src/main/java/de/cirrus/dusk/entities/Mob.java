@@ -105,8 +105,8 @@ public class Mob extends Entity {
                 // the water. 1.0f -- max depth, 0.0f -- we're on the land
                 // (swimming == false).
                 // TODO: implement depth map instead
-                depth += getNextTile() != Tile.water && depth > 0f ? -Math.sqrt(depth) * 0.05f : getPreviousTile() != Tile.water && depth < 1f ? Math
-                        .sqrt(1 - depth) * 0.05f : 0f;
+                depth += (float) (getNextTile() != Tile.water && depth > 0f ? -Math.sqrt(depth) * 0.05f : getPreviousTile() != Tile.water && depth < 1f ? Math
+                                        .sqrt(1 - depth) * 0.05f : 0f);
             } else {
                 swimming = false;
                 depth = 0f;
