@@ -36,7 +36,7 @@ public class Art {
     }
 
     public Image[][] tileset = load("tileset.png", 16, 16);
-    public Image[][] fem_player = load("fem_blond_general.png", 64, 64);
+    public Image[][] fem_player = load("generic_dagger_m.png", 64, 64);
     public Image[][] fem_player_attack = load("fem_blond_attack.png", 192, 192);
 
     private Image[][] load(String path, int sw, int sh) {
