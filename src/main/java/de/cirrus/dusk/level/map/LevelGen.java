@@ -4,29 +4,12 @@ import java.util.Random;
 
 import de.cirrus.dusk.level.tile.Tile;
 
-/**
- * DuskMoon
- * Copyright (C) 2014 by Cirrus
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * -
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * -
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- * -
- * Contact: cirrus.contact@t-online.de
- */
-
 public class LevelGen {
 
     private static final Random random = new Random();
-    public double[] values;
+    private double[] values;
+    private double[] moistureValues;
+    private double[] temperatureValues;
     private int w, h;
 
     public LevelGen(int w, int h, int featureSize) {
@@ -34,42 +17,53 @@ public class LevelGen {
         this.h = h;
 
         values = new double[w * h];
+        moistureValues = new double[w * h];
+        temperatureValues = new double[w * h];
 
-        for (int y = 0; y < w; y += featureSize) {
-            for (int x = 0; x < w; x += featureSize) {
-                setSample(x, y, random.nextFloat() * 2 - 1);
+        // Initialize base terrain noise
+        generateNoise(values, w, h, featureSize);
+
+        // Initialize moisture and temperature maps
+        generateNoise(moistureValues, w, h, featureSize * 2); // Larger feature size for broader moisture zones
+        generateNoise(temperatureValues, w, h, featureSize * 2); // Larger feature size for broader temperature zones
+    }
+
+    private void generateNoise(double[] noiseArray, int width, int height, int featureSize) {
+        for (int y = 0; y < height; y += featureSize) {
+            for (int x = 0; x < width; x += featureSize) {
+                setSample(noiseArray, x, y, random.nextFloat() * 2 - 1);
             }
         }
 
         int stepSize = featureSize;
-        double scale = 1.0 / w;
+        double scale = 1.0 / width;
         double scaleMod = 1;
         do {
             int halfStep = stepSize / 2;
-            for (int y = 0; y < w; y += stepSize) {
-                for (int x = 0; x < w; x += stepSize) {
-                    double a = sample(x, y);
-                    double b = sample(x + stepSize, y);
-                    double c = sample(x, y + stepSize);
-                    double d = sample(x + stepSize, y + stepSize);
+            for (int y = 0; y < width; y += stepSize) {
+                for (int x = 0; x < width; x += stepSize) {
+                    double a = sample(noiseArray, x, y);
+                    double b = sample(noiseArray, x + stepSize, y);
+                    double c = sample(noiseArray, x, y + stepSize);
+                    double d = sample(noiseArray, x + stepSize, y + stepSize);
 
                     double e = (a + b + c + d) / 4.0 + (random.nextFloat() * 2 - 1) * stepSize * scale;
-                    setSample(x + halfStep, y + halfStep, e);
+                    setSample(noiseArray, x + halfStep, y + halfStep, e);
                 }
             }
-            for (int y = 0; y < w; y += stepSize) {
-                for (int x = 0; x < w; x += stepSize) {
-                    double a = sample(x, y);
-                    double b = sample(x + stepSize, y);
-                    double c = sample(x, y + stepSize);
-                    double d = sample(x + halfStep, y + halfStep);
-                    double e = sample(x + halfStep, y - halfStep);
-                    double f = sample(x - halfStep, y + halfStep);
+            for (int y = 0; y < width; y += stepSize) {
+                for (int x = 0; x < width; x += stepSize) {
+                    double a = sample(noiseArray, x, y);
+                    double b = sample(noiseArray, x + stepSize, y);
+                    double c = sample(noiseArray, x, y + stepSize);
+                    double d = sample(noiseArray, x + halfStep, y + halfStep);
+                    double e = sample(noiseArray, x + halfStep, y - halfStep);
+                    double f = sample(noiseArray, x - halfStep, y + halfStep);
 
                     double H = (a + b + d + e) / 4.0 + (random.nextFloat() * 2 - 1) * stepSize * scale * 0.5;
                     double g = (a + c + d + f) / 4.0 + (random.nextFloat() * 2 - 1) * stepSize * scale * 0.5;
-                    setSample(x + halfStep, y, H);
-                    setSample(x, y + halfStep, g);
+                    setSample(noiseArray, x + halfStep, y, H);
+                    setSample(noiseArray, x, y + halfStep, g);
                 }
             }
             stepSize /= 2;
@@ -78,15 +72,19 @@ public class LevelGen {
         } while (stepSize > 1);
     }
 
-    private double sample(int x, int y) {
-        return values[(x & (w - 1)) + (y & (h - 1)) * w];
+    private double sample(double[] noiseArray, int x, int y) {
+        return noiseArray[(x & (w - 1)) + (y & (h - 1)) * w];
     }
 
-    private void setSample(int x, int y, double value) {
-        values[(x & (w - 1)) + (y & (h - 1)) * w] = value;
+    private void setSample(double[] noiseArray, int x, int y, double value) {
+        noiseArray[(x & (w - 1)) + (y & (h - 1)) * w] = value;
     }
 
     private static byte[][] createTopMap(int w, int h) {
+        // TODO: Use the new moisture and temperature maps along with the original
+        // terrain map
+        // to create more detailed biomes
+
         LevelGen mnoise1 = new LevelGen(w, h, 16);
         LevelGen mnoise2 = new LevelGen(w, h, 16);
         LevelGen mnoise3 = new LevelGen(w, h, 16);
@@ -214,6 +212,37 @@ public class LevelGen {
         }
 
         return new byte[][] { map, data };
+    }
+
+    // TODO: Prototype for determining biome
+    private static byte determineBiome(double elevation, double moisture, double temperature) {
+        // Simple biome logic, needs refinement for more complex biomes
+        if (elevation < -0.1) {
+            return Tile.water.id; // Lower areas are water
+        } else if (elevation > 0.8) {
+            return Tile.rock.id; // High elevations are rocky
+        } else if (moisture > 0.5) {
+            if (temperature < 0.2) {
+                // TODO: return Tile.snow.id; // Cold and moist areas are snowy
+            } else {
+                return Tile.grass.id; // Otherwise, they are lush with grass
+            }
+        } else {
+            return Tile.sand.id; // Dry areas are sandy
+        }
+    }
+
+    private static void addDetails(byte[] map, int w, int h) {
+        // TODO: Add trees to grass tiles
+        Random random = new Random();
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                int i = x + y * w;
+                if (map[i] == Tile.grass.id && random.nextFloat() < 0.1) { // 10% chance to add a tree on grass tiles
+                    map[i] = Tile.tree.id;
+                }
+            }
+        }
     }
 
     public static byte[][] createAndValidateTopMap(int w, int h) {
