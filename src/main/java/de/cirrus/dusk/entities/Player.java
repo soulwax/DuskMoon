@@ -1,21 +1,3 @@
-/**
- * DuskMoon
- * Copyright (C) 2014 by Cirrus
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * -
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * -
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * -
- * Contact: cirrus.contact@t-online.de
- */
 package de.cirrus.dusk.entities;
 
 import de.cirrus.dusk.Art;
@@ -58,25 +40,28 @@ public class Player extends Mob {
         super.update(t);
         xa = 0;
         ya = 0;
-        if(input.up) ya--;
-        if(input.down) ya++;
-        if(input.left) xa--;
-        if(input.right) xa++;
+        if (input.up)
+            ya--;
+        if (input.down)
+            ya++;
+        if (input.left)
+            xa--;
+        if (input.right)
+            xa++;
 
-        if(input.space && attackTime == 0 && !swimming) {
+        if (input.space && attackTime == 0 && !swimming) {
             attack();
         }
 
-
-        if(attackTime > 0) {
+        if (attackTime > 0) {
             attackTime--;
         }
-        if(attackTime <= ATTACK_CD/2)
+        if (attackTime <= ATTACK_CD / 2)
             move(xa * t * speed, ya * t * speed);
 
-        tickCount+=t*0.01d;
+        tickCount += t * 0.01d;
         // Loop it
-        if(tickCount > RIPPLES_FREQUENCY) {
+        if (tickCount > RIPPLES_FREQUENCY) {
             tickCount = 0;
         }
     }
@@ -91,8 +76,9 @@ public class Player extends Mob {
     public void render(Screen screen) {
         renderRipples(screen);
         renderShadow(screen);
-        if(attackTime > 0) {
-            if(attackTime == ATTACK_CD) xt = 0;
+        if (attackTime > 0) {
+            if (attackTime == ATTACK_CD)
+                xt = 0;
             if (attackDir == Direction.UP) {
                 yt = 0;
             }
@@ -106,24 +92,30 @@ public class Player extends Mob {
                 yt = 3;
             }
 
-            if(attackTime*attackTime % (ATTACK_CD/5) == 0) xt+=1;
-            if(xt > 5) xt = 5;
-            screen.render((int)x-48, (int)y-24-32-yr, Art.i.fem_player_attack[(int)xt][(int)yt], Player.SCALE, 0);
+            if (attackTime * attackTime % (ATTACK_CD / 5) == 0)
+                xt += 1;
+            if (xt > 5)
+                xt = 5;
+            screen.render((int) x - 48, (int) y - 24 - 32 - yr, Art.i.fem_player_attack[(int) xt][(int) yt],
+                    Player.SCALE, 0);
             yt = attackDir == Direction.DOWN ? 2 : attackDir == Direction.UP ? 0 : attackDir == Direction.LEFT ? 1 : 3;
         } else {
             yt = (xa > 0 ? 11f : (xa < 0 ? 9f : yt));
             yt = (ya > 0 ? 10f : (ya < 0 ? 8f : yt));
 
-            if (xt >= 8) xt = 0;
+            if (xt >= 8)
+                xt = 0;
             xt = ((xa != 0 || ya != 0) ? xt + speed : 0);
 
-            if(swimming) {
+            if (swimming) {
                 // Body top
-                screen.renderSubImage((int) x - 16, (int) y - 20 -(int)(4*(1-depth)) - yr, Art.i.fem_player[(int) xt][(int) yt], 0, 0, 0, (int) (12*depth), Player.SCALE, 0);
+                screen.renderSubImage((int) x - 16, (int) y - 20 - (int) (4 * (1 - depth)) - yr,
+                        Art.i.fem_player[(int) xt][(int) yt], 0, 0, 0, (int) (12 * depth), Player.SCALE, 0);
                 // Body bottom
-                screen.renderSubImage((int) x - 16, (int) y + 5 -(int)(4*(1-depth)) - yr, Art.i.fem_player[(int) xt][(int) yt], 0, 50, 0, 50, Player.SCALE, 0.3f, 0);
+                screen.renderSubImage((int) x - 16, (int) y + 5 - (int) (4 * (1 - depth)) - yr,
+                        Art.i.fem_player[(int) xt][(int) yt], 0, 50, 0, 50, Player.SCALE, 0.3f, 0);
             } else {
-                screen.render((int)x-16, (int)y-24-yr, Art.i.fem_player[(int)xt][(int)yt], Player.SCALE, 0);
+                screen.render((int) x - 16, (int) y - 24 - yr, Art.i.fem_player[(int) xt][(int) yt], Player.SCALE, 0);
             }
         }
     }
@@ -134,10 +126,11 @@ public class Player extends Mob {
      * @param screen the screen
      */
     private void renderShadow(final Screen screen) {
-        if(!swimming) {
-            screen.renderShadow((int)x - 58, (int)y - 54 - yr, Art.i.fem_player[(int) xt][(int) yt], Player.SCALE, 0);
+        if (!swimming) {
+            screen.renderShadow((int) x - 58, (int) y - 54 - yr, Art.i.fem_player[(int) xt][(int) yt], Player.SCALE, 0);
         } else {
-            screen.renderSubImageShadow((int) x - 58, (int) y - 50 - (int) (4 * (1 - depth)) - yr, Art.i.fem_player[(int) xt][(int) yt], 0, (int) (26 * depth),
+            screen.renderSubImageShadow((int) x - 58, (int) y - 50 - (int) (4 * (1 - depth)) - yr,
+                    Art.i.fem_player[(int) xt][(int) yt], 0, (int) (26 * depth),
                     Player.SCALE, 0);
         }
     }
@@ -153,18 +146,20 @@ public class Player extends Mob {
             return;
         }
         float scale = (float) tickCount;
-        float alpha = (float)(((RIPPLES_FREQUENCY - tickCount)/RIPPLES_FREQUENCY+0.75f)/1.5f);
-        screen.render((int) (x - 16 * scale + 0.1 * scale), (int) (y - 28 * scale + 6 - yr), Art.i.fem_player[7][0], scale*Player.SCALE, alpha, 0);
+        float alpha = (float) (((RIPPLES_FREQUENCY - tickCount) / RIPPLES_FREQUENCY + 0.75f) / 1.5f);
+        screen.render((int) (x - 16 * scale + 0.1 * scale), (int) (y - 28 * scale + 6 - yr), Art.i.fem_player[7][0],
+                scale * Player.SCALE, alpha, 0);
         scale += RIPPLES_FREQUENCY;
-        alpha = (float)((RIPPLES_FREQUENCY - tickCount)/RIPPLES_FREQUENCY)*0.5f;
-        screen.render((int) (x - 16 * scale + 0.1 * scale), (int) (y - 28 * scale + 6 - yr), Art.i.fem_player[7][0], scale*Player.SCALE, alpha, 0);
+        alpha = (float) ((RIPPLES_FREQUENCY - tickCount) / RIPPLES_FREQUENCY) * 0.5f;
+        screen.render((int) (x - 16 * scale + 0.1 * scale), (int) (y - 28 * scale + 6 - yr), Art.i.fem_player[7][0],
+                scale * Player.SCALE, alpha, 0);
     }
 
     public boolean findStartPos(Level level) {
-        while(true) {
+        while (true) {
             int x = random.nextInt(level.w);
             int y = random.nextInt(level.h);
-            if(level.getTile(x, y) == Tile.grass) {
+            if (level.getTile(x, y) == Tile.grass) {
                 this.x = (x << 5) + 16;
                 this.y = (y << 5) + 16;
                 return true;

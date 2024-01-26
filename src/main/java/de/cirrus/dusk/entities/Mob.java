@@ -1,21 +1,3 @@
-/**
- * DuskMoon
- * Copyright (C) 2014 by Cirrus
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * -
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * -
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * -
- * Contact: cirrus.contact@t-online.de
- */
 package de.cirrus.dusk.entities;
 
 import de.cirrus.dusk.level.tile.Tile;
@@ -79,11 +61,11 @@ public class Mob extends Entity {
 
     @Override
     public void update(final int t) {
-        if(health <= 0) {
+        if (health <= 0) {
             die();
         }
 
-        if(hurtTime > 0) {
+        if (hurtTime > 0) {
             hurtTime--;
         }
 
@@ -99,14 +81,15 @@ public class Mob extends Entity {
         if (xa != 0 || ya != 0) {
             walkDist++;
             dir = Direction.fromInc(xa, ya);
-            if (level.getTile((int)x >> 5, (int)y >> 5) == Tile.water) {
+            if (level.getTile((int) x >> 5, (int) y >> 5) == Tile.water) {
                 swimming = true;
                 // The immersion mechanics. Helps smoothly walk in and out of
                 // the water. 1.0f -- max depth, 0.0f -- we're on the land
                 // (swimming == false).
                 // TODO: implement depth map instead
-                depth += (float) (getNextTile() != Tile.water && depth > 0f ? -Math.sqrt(depth) * 0.05f : getPreviousTile() != Tile.water && depth < 1f ? Math
-                                        .sqrt(1 - depth) * 0.05f : 0f);
+                depth += (float) (getNextTile() != Tile.water && depth > 0f ? -Math.sqrt(depth) * 0.05f
+                        : getPreviousTile() != Tile.water && depth < 1f ? Math
+                                .sqrt(1 - depth) * 0.05f : 0f);
             } else {
                 swimming = false;
                 depth = 0f;

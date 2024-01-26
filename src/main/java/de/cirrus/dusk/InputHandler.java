@@ -4,27 +4,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
 
-/**
- * DuskMoon
- * Copyright (C) 2014 by Cirrus
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * -
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * -
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * -
- * Contact: cirrus.contact@t-online.de
- */
-
-
-
 public class InputHandler implements MouseListener, KeyListener {
 
     public float x = 0;
@@ -79,11 +58,11 @@ public class InputHandler implements MouseListener, KeyListener {
             lshift = isPressed;
         }
 
-        if(keyCode == Input.KEY_ADD) {
+        if (keyCode == Input.KEY_ADD) {
             plus = isPressed;
         }
 
-        if(keyCode == Input.KEY_SUBTRACT) {
+        if (keyCode == Input.KEY_SUBTRACT) {
             minus = isPressed;
         }
     }
@@ -126,7 +105,8 @@ public class InputHandler implements MouseListener, KeyListener {
     @Override
     public void mouseDragged(int oldx, int oldy, int newx, int newy) {
 
-        //if(Math.abs(xStart - newx) < 1 && Math.abs(yStart - newy) < 1) dragged = false;
+        // if(Math.abs(xStart - newx) < 1 && Math.abs(yStart - newy) < 1) dragged =
+        // false;
 
         this.x = newx;
         this.y = newy;

@@ -4,25 +4,6 @@ import de.cirrus.dusk.Art;
 import de.cirrus.dusk.gfx.Screen;
 import de.cirrus.dusk.level.Level;
 
-/**
- * DuskMoon
- * Copyright (C) 2014 by Cirrus
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * -
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * -
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * -
- * Contact: cirrus.contact@t-online.de
- */
-
 public class WaterTile extends Tile {
     public WaterTile(int id) {
         super(id);
@@ -43,7 +24,6 @@ public class WaterTile extends Tile {
         boolean sl = l && level.getTile(x - 1, y).connectsToSand;
         boolean sr = r && level.getTile(x + 1, y).connectsToSand;
 
-
         boolean ul = !level.getTile(x - 1, y - 1).connectsToWater;
         boolean dl = !level.getTile(x - 1, y + 1).connectsToWater;
         boolean ur = !level.getTile(x + 1, y - 1).connectsToWater;
@@ -57,11 +37,11 @@ public class WaterTile extends Tile {
         // 4|3 5|3 6|3
         // 4|4 5|4 6|4
         // 4|5 5|5 6|5
-        //transit 1 = dirt
-        //transit 2 = sand
+        // transit 1 = dirt
+        // transit 2 = sand
 
         if (!u && !l) {
-            if(!ul)
+            if (!ul)
                 screen.render(x * 32, y * 32, Art.i.tileset[5][0], 0);
             else
                 screen.render(x * 32, y * 32, Art.i.tileset[(sul) ? 5 : 8][8], 0);
@@ -69,27 +49,28 @@ public class WaterTile extends Tile {
             screen.render(x * 32 + 0, y * 32 + 0, Art.i.tileset[(su || sl) ? (l ? 4 : 5) : (l ? 7 : 8)][u ? 4 : 5], 0);
 
         if (!u && !r) {
-            if(!ur)
+            if (!ur)
                 screen.render(x * 32 + 16, y * 32 + 0, Art.i.tileset[5][0], 0);
             else
-                screen.render(x * 32+ 16, y * 32 + 0, Art.i.tileset[(sur) ? 4 : 7][8], 0);
+                screen.render(x * 32 + 16, y * 32 + 0, Art.i.tileset[(sur) ? 4 : 7][8], 0);
         } else
             screen.render(x * 32 + 16, y * 32 + 0, Art.i.tileset[(su || sr) ? (r ? 6 : 5) : (r ? 9 : 8)][u ? 4 : 5], 0);
 
         if (!d && !l) {
-            if(!dl)
+            if (!dl)
                 screen.render(x * 32 + 0, y * 32 + 16, Art.i.tileset[5][0], 0);
             else
                 screen.render(x * 32 + 0, y * 32 + 16, Art.i.tileset[(sdl) ? 5 : 8][7], 0);
         } else
             screen.render(x * 32 + 0, y * 32 + 16, Art.i.tileset[(sd || sl) ? (l ? 4 : 5) : (l ? 7 : 8)][d ? 6 : 5], 0);
         if (!d && !r) {
-            if(!dr)
+            if (!dr)
                 screen.render(x * 32 + 16, y * 32 + 16, Art.i.tileset[5][0], 0);
             else
                 screen.render(x * 32 + 16, y * 32 + 16, Art.i.tileset[(sdr) ? 4 : 7][7], 0);
         } else
-            screen.render(x * 32 + 16, y * 32 + 16, Art.i.tileset[(sd || sr) ? (r ? 6 : 5) : (r ? 9 : 8)][d ? 6 : 5], 0);
+            screen.render(x * 32 + 16, y * 32 + 16, Art.i.tileset[(sd || sr) ? (r ? 6 : 5) : (r ? 9 : 8)][d ? 6 : 5],
+                    0);
     }
 
     public void update(Level level, int xt, int yt) {
