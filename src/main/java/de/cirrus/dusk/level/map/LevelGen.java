@@ -224,6 +224,7 @@ public class LevelGen {
         } else if (moisture > 0.5) {
             if (temperature < 0.2) {
                 // TODO: return Tile.snow.id; // Cold and moist areas are snowy
+                return Tile.grass.id; // TODO: Remove this line
             } else {
                 return Tile.grass.id; // Otherwise, they are lush with grass
             }
