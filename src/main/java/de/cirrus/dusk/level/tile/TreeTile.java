@@ -9,7 +9,8 @@ public class TreeTile extends Tile {
         super(id);
         connectsToGrass = true;
     }
-
+    
+    @Override
     public void render(Screen screen, Level level, int x, int y) {
         boolean u = level.getTile(x, y - 1) == this;
         boolean l = level.getTile(x - 1, y) == this;

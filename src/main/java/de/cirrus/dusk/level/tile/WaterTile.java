@@ -5,6 +5,7 @@ import de.cirrus.dusk.gfx.Screen;
 import de.cirrus.dusk.level.Level;
 
 public class WaterTile extends Tile {
+
     public WaterTile(int id) {
         super(id);
         walkable = true;
@@ -12,6 +13,7 @@ public class WaterTile extends Tile {
         connectsToWater = true;
     }
 
+    @Override
     public void render(Screen screen, Level level, int x, int y) {
 
         boolean u = !level.getTile(x, y - 1).connectsToWater;
@@ -39,40 +41,48 @@ public class WaterTile extends Tile {
         // 4|5 5|5 6|5
         // transit 1 = dirt
         // transit 2 = sand
-
         if (!u && !l) {
-            if (!ul)
-                screen.render(x * 32, y * 32, Art.i.tileset[5][0], 0);
-            else
+            if (!ul) {
+                screen.render(x * 32, y * 32, Art.i.tileset[5][0], 0); 
+            }else {
                 screen.render(x * 32, y * 32, Art.i.tileset[(sul) ? 5 : 8][8], 0);
-        } else
+            }
+        } else {
             screen.render(x * 32 + 0, y * 32 + 0, Art.i.tileset[(su || sl) ? (l ? 4 : 5) : (l ? 7 : 8)][u ? 4 : 5], 0);
+        }
 
         if (!u && !r) {
-            if (!ur)
-                screen.render(x * 32 + 16, y * 32 + 0, Art.i.tileset[5][0], 0);
-            else
+            if (!ur) {
+                screen.render(x * 32 + 16, y * 32 + 0, Art.i.tileset[5][0], 0); 
+            }else {
                 screen.render(x * 32 + 16, y * 32 + 0, Art.i.tileset[(sur) ? 4 : 7][8], 0);
-        } else
+            }
+        } else {
             screen.render(x * 32 + 16, y * 32 + 0, Art.i.tileset[(su || sr) ? (r ? 6 : 5) : (r ? 9 : 8)][u ? 4 : 5], 0);
+        }
 
         if (!d && !l) {
-            if (!dl)
-                screen.render(x * 32 + 0, y * 32 + 16, Art.i.tileset[5][0], 0);
-            else
+            if (!dl) {
+                screen.render(x * 32 + 0, y * 32 + 16, Art.i.tileset[5][0], 0); 
+            }else {
                 screen.render(x * 32 + 0, y * 32 + 16, Art.i.tileset[(sdl) ? 5 : 8][7], 0);
-        } else
+            }
+        } else {
             screen.render(x * 32 + 0, y * 32 + 16, Art.i.tileset[(sd || sl) ? (l ? 4 : 5) : (l ? 7 : 8)][d ? 6 : 5], 0);
+        }
         if (!d && !r) {
-            if (!dr)
-                screen.render(x * 32 + 16, y * 32 + 16, Art.i.tileset[5][0], 0);
-            else
+            if (!dr) {
+                screen.render(x * 32 + 16, y * 32 + 16, Art.i.tileset[5][0], 0); 
+            }else {
                 screen.render(x * 32 + 16, y * 32 + 16, Art.i.tileset[(sdr) ? 4 : 7][7], 0);
-        } else
+            }
+        } else {
             screen.render(x * 32 + 16, y * 32 + 16, Art.i.tileset[(sd || sr) ? (r ? 6 : 5) : (r ? 9 : 8)][d ? 6 : 5],
                     0);
+        }
     }
 
+    @Override
     public void update(Level level, int xt, int yt) {
 
     }

@@ -10,7 +10,8 @@ public class SandTile extends Tile {
         walkable = true;
         connectsToSand = true;
     }
-
+    
+    @Override
     public void render(Screen screen, Level level, int x, int y) {
 
         boolean u = !level.getTile(x, y - 1).connectsToSand;

@@ -20,6 +20,7 @@ public class Tile {
     public static Tile flower = new FlowerTile(7);
     public static Tile cactus = new CactusTile(8);
     public static Tile stairsDown = new StairsDown(9);
+    public static Tile dirt = new DirtTile(10);
 
     public final byte id;
 

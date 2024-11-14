@@ -1,16 +1,21 @@
 package de.cirrus.dusk.level.map;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.Random;
+
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import de.cirrus.dusk.level.tile.Tile;
 
 public class LevelGen {
 
     private static final Random random = new Random();
-    private double[] values;
-    private double[] moistureValues;
-    private double[] temperatureValues;
-    private int w, h;
+    private final double[] values;
+    private final double[] moistureValues;
+    private final double[] temperatureValues;
+    private final int w, h;
 
     public LevelGen(int w, int h, int featureSize) {
         this.w = w;
@@ -104,10 +109,12 @@ public class LevelGen {
 
                 double xd = x / (w - 1.0) * 2 - 1;
                 double yd = y / (h - 1.0) * 2 - 1;
-                if (xd < 0)
+                if (xd < 0) {
                     xd = -xd;
-                if (yd < 0)
+                }
+                if (yd < 0) {
                     yd = -yd;
+                }
                 double dist = xd >= yd ? xd : yd;
                 dist = dist * dist * dist * dist;
                 dist = dist * dist * dist * dist;
@@ -132,13 +139,15 @@ public class LevelGen {
                 for (int j = 0; j < 100; j++) {
                     int xo = x + random.nextInt(5) - random.nextInt(5);
                     int yo = y + random.nextInt(5) - random.nextInt(5);
-                    for (int yy = yo - 1; yy <= yo + 1; yy++)
-                        for (int xx = xo - 1; xx <= xo + 1; xx++)
+                    for (int yy = yo - 1; yy <= yo + 1; yy++) {
+                        for (int xx = xo - 1; xx <= xo + 1; xx++) {
                             if (xx >= 0 && yy >= 0 && xx < w && yy < h) {
                                 if (map[xx + yy * w] == Tile.grass.id) {
                                     map[xx + yy * w] = Tile.sand.id;
                                 }
                             }
+                        }
+                    }
                 }
             }
         }
@@ -153,7 +162,6 @@ public class LevelGen {
          * xx < w && yy < h) { if (map[xx + yy * w] == Tile.grass.id) { map[xx + yy * w]
          * = Tile.dirt.id; } } } } }
          */
-
         for (int i = 0; i < w * h / 400; i++) {
             int x = random.nextInt(w);
             int y = random.nextInt(h);
@@ -195,23 +203,28 @@ public class LevelGen {
         }
 
         int count = 0;
-        stairsLoop: for (int i = 0; i < w * h / 100; i++) {
+        stairsLoop:
+        for (int i = 0; i < w * h / 100; i++) {
             int x = random.nextInt(w - 2) + 1;
             int y = random.nextInt(h - 2) + 1;
 
-            for (int yy = y - 1; yy <= y + 1; yy++)
+            for (int yy = y - 1; yy <= y + 1; yy++) {
                 for (int xx = x - 1; xx <= x + 1; xx++) {
-                    if (map[xx + yy * w] != Tile.rock.id)
+                    if (map[xx + yy * w] != Tile.rock.id) {
                         continue stairsLoop;
+                    }
                 }
+            }
 
             map[x + y * w] = Tile.stairsDown.id;
             count++;
-            if (count == 4)
+            if (count == 4) {
                 break;
+            }
         }
 
-        return new byte[][] { map, data };
+        addDetails(map, w, h);
+        return new byte[][]{map, data};
     }
 
     // TODO: Prototype for determining biome
@@ -235,7 +248,6 @@ public class LevelGen {
 
     private static void addDetails(byte[] map, int w, int h) {
         // TODO: Add trees to grass tiles
-        Random random = new Random();
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
                 int i = x + y * w;
@@ -256,25 +268,80 @@ public class LevelGen {
             for (int i = 0; i < w * h; i++) {
                 count[result[0][i] & 0xff]++;
             }
-            if (count[Tile.rock.id & 0xff] < 100)
+            if (count[Tile.rock.id & 0xff] < 100) {
                 continue;
-            if (count[Tile.sand.id & 0xff] < 100)
+            }
+            if (count[Tile.sand.id & 0xff] < 100) {
                 continue;
-            if (count[Tile.grass.id & 0xff] < 100)
+            }
+            if (count[Tile.grass.id & 0xff] < 100) {
                 continue;
-            if (count[Tile.tree.id & 0xff] < 100)
+            }
+            if (count[Tile.tree.id & 0xff] < 100) {
                 continue;
-            if (count[Tile.stairsDown.id & 0xff] < 2)
+            }
+            if (count[Tile.stairsDown.id & 0xff] < 2) {
                 continue;
-            if (count[Tile.flower.id & 0xff] < 10)
+            }
+            if (count[Tile.flower.id & 0xff] < 10) {
                 continue;
-            if (count[Tile.cactus.id & 0xff] < 10)
+            }
+            if (count[Tile.cactus.id & 0xff] < 10) {
                 continue;
-            if (count[Tile.stairsDown.id & 0xff] >= 200)
+            }
+            if (count[Tile.stairsDown.id & 0xff] >= 200) {
                 continue;
+            }
 
             return result;
 
         } while (true);
+    }
+
+    public static void main(String[] args) {
+        int d = 0;
+        while (true) {
+            int w = 128;
+            int h = 128;
+
+            byte[] map = LevelGen.createAndValidateTopMap(w, h)[0];
+            // byte[] map = LevelGen.createAndValidateUndergroundMap(w, h, (d++ % 3) + 1)[0];
+            // byte[] map = LevelGen.createAndValidateSkyMap(w, h)[0];
+
+            BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+            int[] pixels = new int[w * h];
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    int i = x + y * w;
+
+                    if (map[i] == Tile.water.id) {
+                        pixels[i] = 0x000080;
+                    }
+                    if (map[i] == Tile.grass.id) {
+                        pixels[i] = 0x208020;
+                    }
+                    if (map[i] == Tile.rock.id) {
+                        pixels[i] = 0xa0a0a0;
+                    }
+                    if (map[i] == Tile.dirt.id) {
+                        pixels[i] = 0x604040;
+                    }
+                    if (map[i] == Tile.sand.id) {
+                        pixels[i] = 0xa0a040;
+                    }
+                    if (map[i] == Tile.tree.id) {
+                        pixels[i] = 0x003000;
+                    }
+                    if (map[i] == Tile.lava.id) {
+                        pixels[i] = 0xff2020;
+                    }
+                    if (map[i] == Tile.stairsDown.id) {
+                        pixels[i] = 0xffffff;
+                    }
+                }
+            }
+            img.setRGB(0, 0, w, h, pixels, 0, w);
+            JOptionPane.showMessageDialog(null, null, "Another", JOptionPane.YES_NO_OPTION, new ImageIcon(img.getScaledInstance(w * 4, h * 4, Image.SCALE_AREA_AVERAGING)));
+        }
     }
 }

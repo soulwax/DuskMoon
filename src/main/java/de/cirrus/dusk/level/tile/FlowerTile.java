@@ -11,6 +11,7 @@ public class FlowerTile extends Tile {
         connectsToGrass = true;
     }
 
+    @Override
     public void render(Screen screen, Level level, int x, int y) {
         screen.render(x * 32, y * 32, Art.i.tileset[3][1], 0);
         screen.render(x * 32 + 16, y * 32, Art.i.tileset[3][1], 0);

@@ -29,12 +29,12 @@ public class Level {
     public void renderBackground(Screen screen, int xScroll, int yScroll) {
         int xo = xScroll >> 5;
         int yo = yScroll >> 5;
-        int w = (screen.w + 30) >> 5;
-        int h = (screen.h + 30) >> 5;
+        int ww= (screen.w + 30) >> 5;
+        int hh = (screen.h + 30) >> 5;
 
         screen.setOffset(xScroll, yScroll);
-        for (int y = yo; y <= h + yo; y++) {
-            for (int x = xo; x <= w + xo; x++) {
+        for (int y = yo; y <= hh + yo; y++) {
+            for (int x = xo; x <= ww + xo; x++) {
                 getTile(x, y).render(screen, this, x, y);
             }
         }
