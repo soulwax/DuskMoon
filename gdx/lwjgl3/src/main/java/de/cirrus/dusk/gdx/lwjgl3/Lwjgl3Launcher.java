@@ -1,8 +1,8 @@
-package io.github.some_example_name.lwjgl3;
+package de.cirrus.dusk.gdx.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import io.github.some_example_name.DuskMoon;
+import de.cirrus.dusk.gdx.GameApp;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
@@ -12,7 +12,7 @@ public class Lwjgl3Launcher {
     }
 
     private static Lwjgl3Application createApplication() {
-        return new Lwjgl3Application(new DuskMoon(), getDefaultConfiguration());
+        return new Lwjgl3Application(new GameApp(), getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
