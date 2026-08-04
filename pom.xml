@@ -34,13 +34,13 @@
             </plugin>
         </plugins>
     </build>
-    <url>https://github.com/Korriban/DuskMoon</url>
+    <url>https://github.com/soulwax/DuskMoon</url>
     <scm>
-        <url>git@github.com:Korriban/DuskMoon.git</url>
+        <url>git@github.com:soulwax/DuskMoon.git</url>
         <tag>github</tag>
     </scm>
     <issueManagement>
-        <url>https://github.com/Korriban/DuskMoon/issues</url>
+        <url>https://github.com/soulwax/DuskMoon/issues</url>
         <system>github</system>
     </issueManagement>
     <dependencies>
