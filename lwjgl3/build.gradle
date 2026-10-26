@@ -1,0 +1,38 @@
+plugins {
+    id 'application'
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+application {
+    mainClass = 'de.cirrus.dusk.lwjgl3.Lwjgl3Launcher'
+    applicationName = 'DuskMoon'
+}
+
+sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
+
+dependencies {
+    implementation project(':core')
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    implementation "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
+}
+
+def os = System.properties['os.name'].toLowerCase(Locale.ROOT)
+
+run {
+    workingDir = rootProject.file('assets')
+    jvmArgs += "--enable-native-access=ALL-UNNAMED"
+    if (os.contains('mac')) {
+        jvmArgs += "-XstartOnFirstThread"
+    }
+}
+
+jar {
+    archiveFileName.set("${appName}-${projectVersion}.jar")
+}

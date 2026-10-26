@@ -1,0 +1,22 @@
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+}
+
+subprojects {
+    version = "$projectVersion"
+    ext.appName = 'DuskMoon'
+
+    repositories {
+        mavenCentral()
+        maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url = 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url = 'https://jitpack.io' }
+    }
+}
+
+tasks.register('run') {
+    group = 'application'
+    description = 'Runs the desktop LWJGL3 game'
+    dependsOn ':lwjgl3:run'
+}

@@ -1,0 +1,22 @@
+plugins {
+    id 'java-library'
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+dependencies {
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
+    api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
+}
+
+tasks.register('runLevelGen', JavaExec) {
+    group = 'application'
+    description = 'Runs the standalone LevelGen procedural map generator preview'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'de.cirrus.dusk.level.map.LevelGen'
+}

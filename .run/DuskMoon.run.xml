@@ -1,7 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="DuskMoon" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="de.cirrus.dusk.DuskMoon" />
-    <module name="dusk-moon" />
+    <option name="MAIN_CLASS_NAME" value="de.cirrus.dusk.lwjgl3.Lwjgl3Launcher" />
+    <module name="duskmoon.lwjgl3.main" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/assets" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

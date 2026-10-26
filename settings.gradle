@@ -1,0 +1,2 @@
+1drootProject.name = 'duskmoon'
+include 'core', 'lwjgl3'

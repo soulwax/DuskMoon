@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="LevelGen" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="de.cirrus.dusk.level.map.LevelGen" />
-    <module name="dusk-moon" />
+    <module name="duskmoon.core.main" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
