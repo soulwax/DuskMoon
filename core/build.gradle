@@ -12,6 +12,13 @@ java {
 dependencies {
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
     api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 tasks.register('runLevelGen', JavaExec) {

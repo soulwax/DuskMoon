@@ -9,7 +9,7 @@ public class Mob extends Entity {
      *
      * @author Maksim Chizhov &lt;maksim.chizhov@gmail.com&gt;
      */
-    enum Direction {
+    public enum Direction {
         DOWN, UP, LEFT, RIGHT;
 
         public int dx() {
@@ -22,7 +22,6 @@ public class Mob extends Entity {
 
         /**
          * Get direction by coordinates increment.
-         * FIXME: give a proper name to this function.
          *
          * @param xa increment by x
          * @param ya increment by y
@@ -50,7 +49,7 @@ public class Mob extends Entity {
     public int maxHealth = 100;
     public int health = maxHealth;
     public boolean swimming = false;
-    /** The immersion depth. */
+    /** The immersion depth [0.0 = shore/land, 1.0 = deep water]. */
     public float depth = 0.0f;
 
     public Mob() {
@@ -69,6 +68,20 @@ public class Mob extends Entity {
             hurtTime--;
         }
 
+        updateSwimming();
+    }
+
+    /**
+     * Evaluates spatial water immersion depth based on the level's continuous depth map.
+     */
+    public void updateSwimming() {
+        if (level != null && level.getTile((int) x >> 5, (int) y >> 5) == Tile.water) {
+            swimming = true;
+            depth = level.getWaterDepth(x, y);
+        } else {
+            swimming = false;
+            depth = 0f;
+        }
     }
 
     public void die() {
@@ -77,25 +90,13 @@ public class Mob extends Entity {
 
     @Override
     public boolean move(final double xa, final double ya) {
-
         if (xa != 0 || ya != 0) {
             walkDist++;
             dir = Direction.fromInc(xa, ya);
-            if (level.getTile((int) x >> 5, (int) y >> 5) == Tile.water) {
-                swimming = true;
-                // The immersion mechanics. Helps smoothly walk in and out of
-                // the water. 1.0f -- max depth, 0.0f -- we're on the land
-                // (swimming == false).
-                // TODO: implement depth map instead
-                depth += (float) (getNextTile() != Tile.water && depth > 0f ? -Math.sqrt(depth) * 0.05f
-                        : getPreviousTile() != Tile.water && depth < 1f ? Math
-                                .sqrt(1 - depth) * 0.05f : 0f);
-            } else {
-                swimming = false;
-                depth = 0f;
-            }
         }
-        return super.move(xa, ya);
+        boolean moved = super.move(xa, ya);
+        updateSwimming();
+        return moved;
     }
 
     /**

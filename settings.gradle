@@ -1,2 +1,2 @@
-1drootProject.name = 'duskmoon'
+rootProject.name = 'duskmoon'
 include 'core', 'lwjgl3'

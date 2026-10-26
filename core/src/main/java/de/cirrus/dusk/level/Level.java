@@ -10,6 +10,10 @@ import de.cirrus.dusk.level.tile.Tile;
 
 public class Level {
     public int w, h;
+    public LevelMap levelMap;
+    public DepthMap depthMap;
+
+    // Direct array references for backward compatibility
     public byte[] map;
     public byte[] data;
 
@@ -18,18 +22,42 @@ public class Level {
     public Level(int w, int h) {
         this.w = w;
         this.h = h;
+        this.levelMap = new LevelMap(w, h);
+        this.depthMap = new DepthMap(w, h);
+        this.map = levelMap.tiles;
+        this.data = levelMap.data;
     }
 
     public void init() {
         byte[][] levelData = LevelGen.createAndValidateTopMap(w, h);
-        map = levelData[0];
-        data = levelData[1];
+        this.map = levelData[0];
+        this.data = levelData[1];
+        this.levelMap = new LevelMap(w, h, map, data);
+        initDepthMap();
+    }
+
+    public void initDepthMap() {
+        if (levelMap == null || levelMap.tiles != map || levelMap.data != data) {
+            levelMap = new LevelMap(w, h, map, data);
+        }
+        if (depthMap == null || depthMap.w != w || depthMap.h != h) {
+            depthMap = new DepthMap(w, h);
+        }
+        depthMap.compute(levelMap);
+    }
+
+    public float getWaterDepth(double px, double py) {
+        if (levelMap == null || levelMap.tiles != map) {
+            levelMap = new LevelMap(w, h, map, data);
+        }
+        if (depthMap == null) return 0f;
+        return depthMap.getDepth(px, py, levelMap);
     }
 
     public void renderBackground(Screen screen, int xScroll, int yScroll) {
         int xo = xScroll >> 5;
         int yo = yScroll >> 5;
-        int ww= (screen.w + 30) >> 5;
+        int ww = (screen.w + 30) >> 5;
         int hh = (screen.h + 30) >> 5;
 
         screen.setOffset(xScroll, yScroll);
@@ -50,7 +78,21 @@ public class Level {
     public Tile getTile(int x, int y) {
         if (x < 0 || y < 0 || x >= w || y >= h)
             return Tile.metalPlate;
-        return Tile.tiles[map[x + y * w]];
+        if (map != null) {
+            return Tile.tiles[map[x + y * w]];
+        }
+        return levelMap.getTile(x, y);
+    }
+
+    public void setTile(int x, int y, Tile tile) {
+        if (x >= 0 && y >= 0 && x < w && y < h) {
+            if (map != null) {
+                map[x + y * w] = tile.id;
+            }
+            if (levelMap != null && levelMap.tiles != map) {
+                levelMap.setTile(x, y, tile);
+            }
+        }
     }
 
     public void update(int t) {
