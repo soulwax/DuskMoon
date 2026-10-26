@@ -29,7 +29,7 @@ public class NoiseMap {
         double scaleMod = 1;
         do {
             int halfStep = stepSize / 2;
-            for (int y = 0; y < width; y += stepSize) {
+            for (int y = 0; y < height; y += stepSize) {
                 for (int x = 0; x < width; x += stepSize) {
                     double a = sample(noiseArray, x, y);
                     double b = sample(noiseArray, x + stepSize, y);
@@ -40,7 +40,7 @@ public class NoiseMap {
                     setSample(noiseArray, x + halfStep, y + halfStep, e);
                 }
             }
-            for (int y = 0; y < width; y += stepSize) {
+            for (int y = 0; y < height; y += stepSize) {
                 for (int x = 0; x < width; x += stepSize) {
                     double a = sample(noiseArray, x, y);
                     double b = sample(noiseArray, x + stepSize, y);

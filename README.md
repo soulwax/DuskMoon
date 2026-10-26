@@ -11,6 +11,9 @@ A top-down 2D pixel adventure game featuring procedural world generation, dynami
   - Replaced obsolete 32-bit native binaries with modern 64-bit multiplatform dependencies.
   - Fully compatible with modern Java runtimes (Java 17, Java 21, and Java 27).
   - Pixel-perfect nearest-neighbor scaling inside a 16:9 virtual canvas (`640x360` scaled to `1280x720`) managed by `FitViewport`.
+- **Expanded World & Modular Generation:**
+  - Doubled the overworld dimensions from $128 \times 128$ to **$256 \times 256$** tiles (65,536 total tiles, 4x exploration area).
+  - Decomposed generation into procedural biomes (`Ocean`, `Plains`, `Forest`, `Mountain`, `Desert`) and feature decorators (`SandPatch`, `Tree`, `Flower`, `Cactus`, `DungeonStairs`).
 - **Accurate Swimming & Continuous Depth Map:**
   - Replaced the legacy directional estimation with a continuous distance-field **`DepthMap`**.
   - Calculates Euclidean distance from shorelines across an 8-way connected grid using multi-source BFS.

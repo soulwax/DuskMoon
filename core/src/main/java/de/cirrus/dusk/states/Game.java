@@ -17,6 +17,8 @@ public class Game implements com.badlogic.gdx.Screen {
     public Screen screen;
     public InputHandler input;
     public Player player;
+    public static final int OVERWORLD_WIDTH = 256;
+    public static final int OVERWORLD_HEIGHT = 256;
     public static int gameTempo = 3;
 
     private SpriteBatch batch;
@@ -35,7 +37,7 @@ public class Game implements com.badlogic.gdx.Screen {
         viewport = new FitViewport(viewW, viewH, camera);
 
         screen = new Screen(batch, viewW, viewH);
-        level = new Level(128, 128);
+        level = new Level(OVERWORLD_WIDTH, OVERWORLD_HEIGHT);
         level.init();
         resetGame();
     }

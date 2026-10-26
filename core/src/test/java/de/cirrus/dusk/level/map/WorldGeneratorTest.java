@@ -183,4 +183,21 @@ public class WorldGeneratorTest {
         assertTrue(count[Tile.flower.id & 0xff] >= 10, "Flower count constraint");
         assertTrue(count[Tile.cactus.id & 0xff] >= 10, "Cactus count constraint");
     }
+
+    @Test
+    @DisplayName("Overworld 256x256 doubled map generates and validates successfully")
+    public void testOverworldDoubledMapSize() {
+        int w = 256;
+        int h = 256;
+        LevelMap map = generator.generate(w, h);
+
+        assertNotNull(map);
+        assertEquals(256, map.w);
+        assertEquals(256, map.h);
+        assertEquals(256 * 256, map.tiles.length);
+
+        byte[][] validated = LevelGen.createAndValidateTopMap(w, h);
+        assertNotNull(validated);
+        assertEquals(256 * 256, validated[0].length);
+    }
 }

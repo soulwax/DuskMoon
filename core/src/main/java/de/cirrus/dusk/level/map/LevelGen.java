@@ -111,8 +111,8 @@ public class LevelGen {
     public static void main(String[] args) {
         int d = 0;
         while (true) {
-            int w = 128;
-            int h = 128;
+            int w = 256;
+            int h = 256;
 
             byte[] map = LevelGen.createAndValidateTopMap(w, h)[0];
 
@@ -151,8 +151,8 @@ public class LevelGen {
             img.setRGB(0, 0, w, h, pixels, 0, w);
             int response = JOptionPane.showConfirmDialog(
                     null,
-                    new ImageIcon(img.getScaledInstance(w * 4, h * 4, Image.SCALE_AREA_AVERAGING)),
-                    "Procedural Level Preview",
+                    new ImageIcon(img.getScaledInstance(w * 2, h * 2, Image.SCALE_AREA_AVERAGING)),
+                    "Procedural Level Preview (256x256)",
                     JOptionPane.YES_NO_OPTION
             );
             if (response != JOptionPane.YES_OPTION) {
