@@ -26,7 +26,7 @@ public class Art implements Disposable {
 
     public Art() {
         tileset = load("tileset.png", 16, 16);
-        fem_player = load("generic_dagger_m.png", 64, 64);
+        fem_player = load("fem_blond_general.png", 64, 64);
         fem_player_attack = load("fem_blond_attack.png", 192, 192);
     }
 

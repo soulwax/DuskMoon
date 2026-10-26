@@ -48,4 +48,35 @@ public class Tile {
 
     public void render(Screen screen, Level level, int x, int y) {
     }
+
+    /**
+     * Determines whether this tile at (xt, yt) blocks an entity from moving into the specified bounding box.
+     *
+     * @param level the level
+     * @param xt tile x
+     * @param yt tile y
+     * @param entity the entity moving
+     * @param boxX0 entity min x
+     * @param boxY0 entity min y
+     * @param boxX1 entity max x
+     * @param boxY1 entity max y
+     * @return true if movement is blocked
+     */
+    public boolean blocks(Level level, int xt, int yt, Entity entity, double boxX0, double boxY0, double boxX1, double boxY1) {
+        if (walkable) {
+            return false;
+        }
+        double tX0 = xt * 32.0;
+        double tY0 = yt * 32.0;
+        double tX1 = tX0 + 32.0;
+        double tY1 = tY0 + 32.0;
+
+        return boxX0 < tX1 && boxX1 > tX0 && boxY0 < tY1 && boxY1 > tY0;
+    }
+
+    /**
+     * Renders any elevated foreground elements (e.g. tree canopies) that should draw on top of entities.
+     */
+    public void renderForeground(Screen screen, Level level, int x, int y) {
+    }
 }

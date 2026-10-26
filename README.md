@@ -14,6 +14,15 @@ A top-down 2D pixel adventure game featuring procedural world generation, dynami
 - **Expanded World & Modular Generation:**
   - Doubled the overworld dimensions from $128 \times 128$ to **$256 \times 256$** tiles (65,536 total tiles, 4x exploration area).
   - Decomposed generation into procedural biomes (`Ocean`, `Plains`, `Forest`, `Mountain`, `Desert`) and feature decorators (`SandPatch`, `Tree`, `Flower`, `Cactus`, `DungeonStairs`).
+- **Character & Rendering Refinements:**
+  - Main playable character now features the **blonde female protagonist** across all movements, attacks, and idle animations (`fem_blond_general.png` and `fem_blond_attack.png`).
+  - Added a multi-pass foreground canopy rendering layer (`renderForeground`): characters walking behind trees are naturally occluded by upper tree foliage.
+  - Implemented Y-sorted entity rendering so closer characters and mobs correctly overlap further entities.
+  - Softened shadow opacity and matched attack cast shadows to current facing directions.
+- **Sub-Tile Obstacle Collision:**
+  - Trees, tree groves, and cacti now feature realistic sub-tile stem collision boxes rather than blocking entire 32x32 tiles.
+  - Players can walk under tree canopies and squeeze closely past tree trunks without invisible boundary collisions.
+  - Interior groves remain impassable while borders and edges remain natural and navigable.
 - **Accurate Swimming & Continuous Depth Map:**
   - Replaced the legacy directional estimation with a continuous distance-field **`DepthMap`**.
   - Calculates Euclidean distance from shorelines across an 8-way connected grid using multi-source BFS.

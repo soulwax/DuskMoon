@@ -71,7 +71,25 @@ public class Level {
 
     public void renderEntities(Screen screen, int xScroll, int yScroll) {
         screen.setOffset(xScroll, yScroll);
-        entities.stream().filter(e -> !e.removed).forEach(e -> e.render(screen));
+        entities.stream()
+                .filter(e -> !e.removed)
+                .sorted((e1, e2) -> Double.compare(e1.y, e2.y))
+                .forEach(e -> e.render(screen));
+        screen.setOffset(0, 0);
+    }
+
+    public void renderForeground(Screen screen, int xScroll, int yScroll) {
+        int xo = xScroll >> 5;
+        int yo = yScroll >> 5;
+        int ww = (screen.w + 30) >> 5;
+        int hh = (screen.h + 30) >> 5;
+
+        screen.setOffset(xScroll, yScroll);
+        for (int y = yo; y <= hh + yo; y++) {
+            for (int x = xo; x <= ww + xo; x++) {
+                getTile(x, y).renderForeground(screen, this, x, y);
+            }
+        }
         screen.setOffset(0, 0);
     }
 

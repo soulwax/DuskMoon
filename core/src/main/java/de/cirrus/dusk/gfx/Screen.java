@@ -12,7 +12,7 @@ public class Screen {
     public static final int BIT_MIRROR_X = 0x01;
     public static final int BIT_MIRROR_Y = 0x02;
 
-    public final Color shadow = new Color(0f, 0f, 0f, 0.5f);
+    public final Color shadow = new Color(0f, 0f, 0f, 0.32f);
 
     private SpriteBatch batch;
 

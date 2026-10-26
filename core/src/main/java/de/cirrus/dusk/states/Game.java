@@ -96,6 +96,7 @@ public class Game implements com.badlogic.gdx.Screen {
         batch.begin();
         level.renderBackground(screen, xScroll, yScroll);
         level.renderEntities(screen, xScroll, yScroll);
+        level.renderForeground(screen, xScroll, yScroll);
         batch.end();
     }
 

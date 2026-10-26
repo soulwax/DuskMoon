@@ -113,7 +113,7 @@ public class Player extends Mob {
                         Art.i.fem_player[(int) xt][(int) yt], 0, 0, 0, (int) (12 * depth), Player.SCALE, 0);
                 // Body bottom
                 screen.renderSubImage((int) x - 16, (int) y + 5 - (int) (4 * (1 - depth)) - yr,
-                        Art.i.fem_player[(int) xt][(int) yt], 0, 50, 0, 50, Player.SCALE, 0.3f, 0);
+                        Art.i.fem_player[(int) xt][(int) yt], 0, 50, 0, 50, Player.SCALE, 0.35f, 0);
             } else {
                 screen.render((int) x - 16, (int) y - 24 - yr, Art.i.fem_player[(int) xt][(int) yt], Player.SCALE, 0);
             }
@@ -126,11 +126,18 @@ public class Player extends Mob {
      * @param screen the screen
      */
     private void renderShadow(final Screen screen) {
+        int dirYt;
+        if (attackTime > 0) {
+            dirYt = attackDir == Direction.UP ? 8 : (attackDir == Direction.LEFT ? 9 : (attackDir == Direction.DOWN ? 10 : 11));
+        } else {
+            dirYt = (int) yt;
+        }
+
         if (!swimming) {
-            screen.renderShadow((int) x - 58, (int) y - 54 - yr, Art.i.fem_player[(int) xt][(int) yt], Player.SCALE, 0);
+            screen.renderShadow((int) x - 58, (int) y - 54 - yr, Art.i.fem_player[(int) xt][dirYt], Player.SCALE, 0);
         } else {
             screen.renderSubImageShadow((int) x - 58, (int) y - 50 - (int) (4 * (1 - depth)) - yr,
-                    Art.i.fem_player[(int) xt][(int) yt], 0, (int) (26 * depth),
+                    Art.i.fem_player[(int) xt][dirYt], 0, (int) (26 * depth),
                     Player.SCALE, 0);
         }
     }
